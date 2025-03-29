@@ -37,3 +37,7 @@ module.exports = pool;
 	"roleToGiveId": "role_id" // if you use the bot for aa single guild, put the role id here
 }
 ```
+
+- Deploy the commands using: `node deploy-commands.js`
+
+- Launch the bot using: `node index.js`
