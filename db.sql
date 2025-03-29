@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS `metalifebot`;
+
 CREATE TABLE IF NOT EXISTS invite_counts (
   inviter_id VARCHAR(50),
   guild_id VARCHAR(50),

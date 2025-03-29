@@ -1,5 +1,6 @@
 const { Events, Collection } = require('discord.js');
 const pool = require('../db');
+const { getLocale } = require('../global');
 
 const DEBUG_MODE = false;
 // Set your invite threshold (number of invites required to earn the role)
@@ -59,7 +60,7 @@ module.exports = {
 	name: Events.GuildMemberAdd,
 	once: false,
 	async execute(member) {
-		console.log('EVENT: GuildMemberAdd');
+		if (DEBUG_MODE) console.log('EVENT: GuildMemberAdd');
 		const guild = member.guild;
 		let roleToGive = guild.roles.cache.find(r => r.name === INVITER_ROLE_NAME);
 		if (!roleToGive) {
@@ -143,7 +144,11 @@ module.exports = {
 					if (inviterMember) {
 						inviterMember.roles.add(role)
 							.then(() => {
-								inviterMember.send(`Congratulations! You have reached ${INVITE_THRESHOLD} invites in ${member.guild.name} and earned the ${role.name} role.`);
+								inviterMember.send(getLocale('congrats_vip', [
+									INVITE_THRESHOLD,
+									member.guild.name,
+									role.name,
+								  ]));
 								if (DEBUG_MODE) console.log(`Assigned ${role.name} role to ${inviter.tag}`);
 							})
 							.catch(console.error);
