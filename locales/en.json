@@ -1,3 +1,4 @@
 {
-    "congrats_vip": "Congratulations! You have reached $1 invites in $2 and earned the $3 role."
+    "congrats_vip": "Congratulations! You have reached $1 invites in $2 and earned the $3 role.",
+    "remove_vip": "Too bad ! One of your guests has left the guild $1, you lost the $2 role."
 }

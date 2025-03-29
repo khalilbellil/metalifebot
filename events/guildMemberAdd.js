@@ -1,50 +1,64 @@
 const { Events, Collection } = require('discord.js');
 const pool = require('../db');
 const { getLocale } = require('../global');
-
-const DEBUG_MODE = false;
-// Set your invite threshold (number of invites required to earn the role)
-const INVITE_THRESHOLD = 10;
-// The name or ID of the role to assign once threshold is reached
-const INVITER_ROLE_NAME = '📀・VIP';
-// Role
-const roleToGiveId = '1353730040839274631';
+const { INVITE_THRESHOLD, INVITER_ROLE_NAME, roleToGiveId, DEBUG_MODE } = require('../config.json');
 
 /**
  * Update and retrieve the invite count for a specific inviter in a guild.
  * @param {string} inviterId - The Discord ID of the inviter.
  * @param {string} guildId - The Discord ID of the guild.
+ * @param {string} inviteeId - The Discord ID of the invitee.
  * @returns {Promise<number|null>} - The new invite count, or null if an error occurred.
  */
-async function updateInviteCount(inviterId, guildId) {
+async function updateInviteCount(inviterId, guildId, inviteeId) {
 	let conn;
 	try {
 		conn = await pool.getConnection();
-		// Check if the inviter already has a record in this guild
-		let rows = await conn.query(
-			'SELECT invite_count FROM invite_counts WHERE inviter_id = ? AND guild_id = ?',
-			[inviterId, guildId],
+		// Check if the invitee has already been invited in this guild
+		const existingInvite = await conn.query(
+			'SELECT 1 FROM invite_tracking WHERE guild_id = ? AND invitee_id = ?',
+			[guildId, inviteeId],
 		);
-		if (rows.length === 0) {
-			// Insert a new record for this inviter in the guild
+
+		if (existingInvite.length === 0) {
+			// Record the new invitation
 			await conn.query(
-				'INSERT INTO invite_counts (inviter_id, guild_id, invite_count) VALUES (?, ?, ?)',
-				[inviterId, guildId, 1],
+				'INSERT INTO invite_tracking (inviter_id, guild_id, invitee_id) VALUES (?, ?, ?)',
+				[inviterId, guildId, inviteeId],
 			);
-			return 1;
-		}
-		else {
-			// Update the invite count for this inviter in the guild
-			await conn.query(
-				'UPDATE invite_counts SET invite_count = invite_count + 1 WHERE inviter_id = ? AND guild_id = ?',
-				[inviterId, guildId],
-			);
-			// Retrieve the updated count
-			rows = await conn.query(
+
+			// Check if the inviter already has a record in this guild
+			const inviterRecord = await conn.query(
 				'SELECT invite_count FROM invite_counts WHERE inviter_id = ? AND guild_id = ?',
 				[inviterId, guildId],
 			);
-			return rows[0].invite_count;
+
+			if (inviterRecord.length === 0) {
+				// Insert a new record for this inviter in the guild
+				await conn.query(
+					'INSERT INTO invite_counts (inviter_id, guild_id, invite_count) VALUES (?, ?, ?)',
+					[inviterId, guildId, 1],
+				);
+				return 1;
+			}
+			else {
+				// Update the invite count for this inviter in the guild
+				await conn.query(
+					'UPDATE invite_counts SET invite_count = invite_count + 1 WHERE inviter_id = ? AND guild_id = ?',
+					[inviterId, guildId],
+				);
+				// Retrieve the updated count
+				const updatedRecord = await conn.query(
+					'SELECT invite_count FROM invite_counts WHERE inviter_id = ? AND guild_id = ?',
+					[inviterId, guildId],
+				);
+				return updatedRecord[0].invite_count;
+			}
+		}
+		else {
+			// The invitee has already been counted; do not increment the invite count
+			if (DEBUG_MODE) console.log(`Invitee ${inviteeId} has already been invited by ${inviterId} in guild ${guildId}.`);
+			return null;
 		}
 	}
 	catch (err) {
@@ -55,6 +69,7 @@ async function updateInviteCount(inviterId, guildId) {
 		if (conn) conn.release();
 	}
 }
+
 
 module.exports = {
 	name: Events.GuildMemberAdd,
@@ -132,7 +147,7 @@ module.exports = {
 			const inviter = usedInvite.inviter;
 			if (DEBUG_MODE) console.log(`Invite used by ${member.user.tag} via code ${usedInvite.code} (created by ${inviter.tag})`);
 
-			const newCount = await updateInviteCount(inviter.id, member.guild.id);
+			const newCount = await updateInviteCount(inviter.id, member.guild.id, member.user.id);
 			if (newCount === null) return;
 
 			if (DEBUG_MODE) console.log(`${inviter.tag} now has ${newCount} invites in guild ${member.guild.id}.`);
