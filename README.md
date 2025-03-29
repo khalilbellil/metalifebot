@@ -27,6 +27,6 @@ module.exports = pool;
 {
 	"token": "discord_token_here",
 	"clientId": "discord_client_id_here",
-  "guildId": "discord_server_id_here"
+	"guildId": "discord_server_id_here"
 }
 ```
