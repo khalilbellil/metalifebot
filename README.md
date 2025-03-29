@@ -1,6 +1,10 @@
 # Metalifebot
 A discord bot with some custom features
 
+## Requirements
+- Mariadb
+- Nodejs
+
 ## Features
 - Gives a configured role to each member that reaches the invites threshold.
 - /website : shares metalife website in the chat.
@@ -37,6 +41,8 @@ module.exports = pool;
 	"roleToGiveId": "role_id" // if you use the bot for aa single guild, put the role id here
 }
 ```
+
+- Execute the sql commands from the file `db.sql` in your mariadb.
 
 - Deploy the commands using: `node deploy-commands.js`
 
