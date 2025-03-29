@@ -27,6 +27,11 @@ module.exports = pool;
 {
 	"token": "discord_token_here",
 	"clientId": "discord_client_id_here",
-	"guildId": "discord_server_id_here" // leave it empty to deploy commands in all the guilds
+	"guildId": "discord_server_id_here", // leave it empty to deploy commands in all the guilds
+	"lang": "fr",
+	"DEBUG_MODE": false,
+	"INVITE_THRESHOLD": 10,
+	"INVITER_ROLE_NAME": "📀・VIP", // don't need this if you already have a roleToGiveId (for single guild)
+	"roleToGiveId": "role_id" // if you use the bot for aa single guild, put the role id here
 }
 ```
