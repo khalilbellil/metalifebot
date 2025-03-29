@@ -7,9 +7,10 @@ A discord bot with some custom features
 
 ## Features
 - Gives a configured role to each member that reaches the invites threshold.
-- /website : shares metalife website in the chat.
 - Removes the configured role if invited user leaves the guild and threshold is not reached anymore.
 - Sends a private message when role is given or removed (with localization).
+- /website : shares metalife website in the chat.
+- /invites : retreive invites count for the user.
 
 ## How to use ?
 - Create a file named /db.js
