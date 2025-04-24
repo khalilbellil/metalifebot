@@ -24,7 +24,7 @@ const pool = mariadb.createPool({
 	host: 'localhost',
 	user: 'root',
 	password: 'password',
-	database: 'metalifebot',
+	database: 'db_name',
 	connectionLimit: 5,
 	port: '3306',
 });
@@ -42,7 +42,8 @@ module.exports = pool;
 	"DEBUG_MODE": false,
 	"INVITE_THRESHOLD": 10,
 	"INVITER_ROLE_NAME": "📀・VIP", // don't need this if you already have a roleToGiveId (for single guild)
-	"roleToGiveId": "role_id" // if you use the bot for aa single guild, put the role id here
+	"roleToGiveId": "role_id", // if you use the bot for aa single guild, put the role id here
+	"DEBOUNCE_TIME": 300000 // Minimum time before updating member counts to prevent spam (5 minutes by default)
 }
 ```
 
