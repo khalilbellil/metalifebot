@@ -37,7 +37,6 @@ module.exports = pool;
 {
 	"token": "discord_token_here",
 	"clientId": "discord_client_id_here",
-	"guildId": "discord_server_id_here", // leave it empty to deploy commands in all the guilds
 	"lang": "fr",
 	"DEBUG_MODE": false,
 	"INVITE_THRESHOLD": 10,
