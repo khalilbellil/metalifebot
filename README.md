@@ -7,6 +7,7 @@ A discord bot with some custom features
 
 ## Features
 - Testing connection to Discord API when launching the bot.
+- Commands deployed when the bot joins a new guild.
 - Localization system (French and English available by default, but you can add as many as needed)
 - Creates a voice channel and updates its name to display members count.
 - Gives a configured role to each member that reaches the invites threshold.
