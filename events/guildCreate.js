@@ -1,7 +1,7 @@
 const { Events, REST, Routes } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
-const { clientId, token } = require('../config.json');
+const { clientId, token, DEBUG_MODE } = require('../config.json');
 const { updateMemberCount } = require('../global');
 
 // Load all commands
