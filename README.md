@@ -6,6 +6,9 @@ A discord bot with some custom features
 - Nodejs
 
 ## Features
+- Testing connection to Discord API when launching the bot.
+- Localization system (French and English available by default, but you can add as many as needed)
+- Creates a voice channel and updates its name to display members count.
 - Gives a configured role to each member that reaches the invites threshold.
 - Removes the configured role if invited user leaves the guild and threshold is not reached anymore.
 - Sends a private message when role is given or removed (with localization).

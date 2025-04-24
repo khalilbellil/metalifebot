@@ -1,6 +1,8 @@
 {
+    "website_link": "[Metalife.mp](https://metalife.mp)",
     "congrats_vip": "Félicitations ! Vous avez atteint $1 invitations dans $2 et gagné le rôle $3.",
     "remove_vip": "Dommage ! Un de vos invités a quitté $1, vous avez perdu le rôle $2.",
     "count_not_found": "Vous avez 0 invitations.",
-    "display_count": "Vous avez $1 invitations."
+    "display_count": "Vous avez $1 invitations.",
+    "member_count_channel_name": "👤・Membres: "
 }
