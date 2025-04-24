@@ -6,7 +6,7 @@ module.exports = {
   cooldown: 5,
   data: new SlashCommandBuilder()
     .setName('website')
-    .setDescription('Replies with Metalife Website link'),
+    .setDescription('Replies with our Website link'),
   async execute(interaction) {
     await interaction.reply(getLocale('website_link'));
   },
